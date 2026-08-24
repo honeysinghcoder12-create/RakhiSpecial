@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>For My Favourite Person 🧵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Caveat:wght@500;600;700&family=Literata:ital,wght@0,400;0,500;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --maroon: #7A2331;
+      --maroon-deep: #5A1520;
+      --gold: #C9973F;
+      --gold-light: #E8C878;
+      --cream: #FBF3E7;
+      --paper: #FFFBF4;
+      --blush: #E9A6A1;
+      --ink: #3A1E1A;
+      --thread: #B8324A;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Literata', serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+      overscroll-behavior-y: none;
+    }
+
+    .scroller {
+      height: 100vh;
+      height: calc(var(--vh, 1vh) * 100);
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: y proximity;
+    }
+
+    section {
+      min-height: 100vh;
+      min-height: calc(var(--vh, 1vh) * 100);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      scroll-snap-align: start;
+      padding: 48px 24px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+    }
+
+    .script {
+      font-family: 'Caveat', cursive;
+    }
+
+    /* ---------- thread motif (signature element) ---------- */
+    .thread-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .thread-path {
+      fill: none;
+      stroke: var(--thread);
+      stroke-width: 2.5;
+      stroke-dasharray: 6 8;
+      opacity: .35;
+    }
+
+    /* ---------- progress thread at top ---------- */
+    .progress-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: rgba(122, 35, 49, .12);
+      z-index: 50;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--maroon));
+      transition: width .25s ease;
+    }
+
+    /* ---------- Screen 0 : cover ---------- */
+    #cover {
+      background: radial-gradient(circle at 50% 20%, var(--blush) 0%, var(--cream) 55%);
+    }
+
+    .eyebrow {
+      font-family: 'Fredoka', sans-serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: var(--maroon);
+      margin-bottom: 18px;
+    }
+
+    #cover h1 {
+      font-size: clamp(38px, 9vw, 68px);
+      color: var(--maroon-deep);
+      line-height: 1.05;
+      max-width: 720px;
+    }
+
+    #cover .sub {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(22px, 4vw, 30px);
+      color: var(--maroon);
+      margin-top: 16px;
+    }
+
+    .rakhi-icon {
+      width: 86px;
+      height: 86px;
+      margin-bottom: 22px;
+    }
+
+    .btn {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 17px;
+      padding: 15px 34px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: var(--maroon);
+      color: var(--cream);
+      box-shadow: 0 8px 20px rgba(122, 35, 49, .25);
+      transition: transform .15s ease, box-shadow .15s ease;
+      touch-action: manipulation;
+      min-height: 48px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(122, 35, 49, .32);
+    }
+
+    .btn:active {
+      transform: scale(.96);
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--maroon);
+      border: 2px solid var(--maroon);
+      box-shadow: none;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 13px;
+      color: var(--maroon);
+      opacity: .6;
+      letter-spacing: .08em;
+      animation: bob 1.8s ease-in-out infinite;
+    }
+
+    @keyframes bob {
+
+      0%,
+      100% {
+        transform: translate(-50%, 0);
+      }
+
+      50% {
+        transform: translate(-50%, 8px);
+      }
+    }
+
+    /* ---------- Screen -1 : name gate ---------- */
+    #nameGate {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 20%, var(--blush) 0%, var(--cream) 55%);
+      padding: 24px;
+      text-align: center;
+      transition: opacity .4s ease, visibility .4s ease;
+    }
+
+    #nameGate.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #nameGate .rakhi-icon {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 20px;
+    }
+
+    #nameGate h1 {
+      font-size: clamp(26px, 6vw, 38px);
+      color: var(--maroon-deep);
+      max-width: 480px;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    #nameGate .sub {
+      font-family: 'Caveat', cursive;
+      font-size: 19px;
+      color: var(--maroon);
+      margin-bottom: 28px;
+    }
+
+    #nameInput {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 18px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: 2px solid var(--maroon);
+      background: var(--paper);
+      color: var(--ink);
+      text-align: center;
+      width: min(280px, 80vw);
+      outline: none;
+      margin-bottom: 20px;
+    }
+
+    #nameInput:focus {
+      border-color: var(--gold);
+    }
+
+    #nameError {
+      font-family: 'Caveat', cursive;
+      font-size: 18px;
+      color: var(--thread);
+      min-height: 24px;
+      margin-top: -10px;
+      margin-bottom: 6px;
+    }
+
+    /* ---------- Screen 1 : the dodging question ---------- */
+    #ask {
+      background: var(--paper);
+    }
+
+    #ask h2 {
+      font-size: clamp(26px, 5.5vw, 42px);
+      color: var(--maroon-deep);
+      max-width: 600px;
+      margin-bottom: 8px;
+    }
+
+    #ask .note {
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      color: var(--maroon);
+      margin-bottom: 36px;
+    }
+
+    .choice-row {
+      display: flex;
+      gap: 20px;
+      position: relative;
+      height: 70px;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    #noBtn {
+      position: relative;
+      transition: transform .18s ease;
+    }
+
+    #dodgeMsg {
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      color: var(--thread);
+      margin-top: 18px;
+      min-height: 26px;
+    }
+
+    /* ---------- Screen 2 : gift boxes ---------- */
+    #gifts {
+      background: linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
+    }
+
+    #gifts h2 {
+      color: var(--maroon-deep);
+      font-size: clamp(26px, 5.5vw, 40px);
+      margin-bottom: 10px;
+    }
+
+    #gifts .note {
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      color: var(--maroon);
+      margin-bottom: 38px;
+    }
+
+    .box-row {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 640px;
+    }
+
+    .gift {
+      width: 200px;
+      height: auto;
+      min-height: 200px;
+      border-radius: 16px;
+      background: var(--maroon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 10px 24px rgba(122, 35, 49, .22);
+      transition: transform .25s ease;
+      perspective: 600px;
+      touch-action: manipulation;
+    }
+
+    .gift:hover {
+      transform: translateY(-4px) rotate(-1deg);
+    }
+
+    .gift .ribbon-v {
+      position: absolute;
+      width: 18px;
+      height: 100%;
+      background: var(--gold-light);
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .gift .ribbon-h {
+      position: absolute;
+      height: 18px;
+      width: 100%;
+      background: var(--gold-light);
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+
+    .gift .bow {
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 26px;
+    }
+
+    .gift.opened {
+      background: var(--paper);
+      border: 2px dashed var(--gold);
+      cursor: default;
+    }
+
+    .gift .msg {
+      display: none;
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      color: var(--maroon-deep);
+      padding: 16px;
+      line-height: 1.5;
+    }
+
+    .gift.opened .msg {
+      display: block;
+    }
+
+    .gift.opened .ribbon-v,
+    .gift.opened .ribbon-h,
+    .gift.opened .bow {
+      display: none;
+    }
+
+    #giftsContinue {
+      margin-top: 40px;
+      opacity: .35;
+      pointer-events: none;
+      transition: opacity .3s ease;
+    }
+
+    #giftsContinue.ready {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ---------- Screen 3 : memories wall ---------- */
+    #memories {
+      background: var(--paper);
+    }
+
+    #memories h2 {
+      color: var(--maroon-deep);
+      font-size: clamp(26px, 5.5vw, 40px);
+      margin-bottom: 6px;
+    }
+
+    #memories .note {
+      font-family: 'Caveat', cursive;
+      font-size: 19px;
+      color: var(--maroon);
+      margin-bottom: 34px;
+      max-width: 520px;
+    }
+
+    .wall {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 900px;
+    }
+
+    .polaroid {
+      background: #fff;
+      padding: 12px 12px 34px 12px;
+      box-shadow: 0 10px 22px rgba(58, 30, 26, .18);
+      width: 160px;
+      position: relative;
+    }
+
+    .polaroid:nth-child(1) {
+      transform: rotate(-4deg);
+    }
+
+    .polaroid:nth-child(2) {
+      transform: rotate(3deg);
+    }
+
+    .polaroid:nth-child(3) {
+      transform: rotate(-2deg);
+    }
+
+    .polaroid:nth-child(4) {
+      transform: rotate(5deg);
+    }
+
+    .polaroid .frame {
+      width: 100%;
+      aspect-ratio: 1/1;
+      background: repeating-linear-gradient(45deg, var(--blush) 0 10px, #f4cfc9 10px 20px);
+      border: 1px dashed var(--maroon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 11px;
+      color: var(--maroon-deep);
+      text-align: center;
+      padding: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .polaroid .frame img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .polaroid .cap {
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      color: var(--maroon-deep);
+      margin-top: 8px;
+    }
+
+    .pin {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+    }
+
+    /* ---------- Screen 4 : certificate ---------- */
+    #certificate {
+      background: radial-gradient(circle at 50% 30%, var(--blush) 0%, var(--paper) 60%);
+    }
+
+    .cert {
+      background: var(--paper);
+      border: 3px solid var(--gold);
+      outline: 1px solid var(--maroon);
+      outline-offset: -10px;
+      padding: 52px 40px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 18px 40px rgba(58, 30, 26, .2);
+    }
+
+    .cert .eyebrow {
+      margin-bottom: 6px;
+    }
+
+    .cert h2 {
+      color: var(--maroon-deep);
+      font-size: clamp(24px, 5vw, 34px);
+      margin-bottom: 18px;
+    }
+
+    .cert .name {
+      font-family: 'Caveat', cursive;
+      font-size: 44px;
+      color: var(--thread);
+      border-bottom: 2px solid var(--gold);
+      display: inline-block;
+      padding: 0 20px 6px;
+      margin-bottom: 22px;
+    }
+
+    .cert p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    .cert .sign {
+      margin-top: 26px;
+      font-family: 'Caveat', cursive;
+      font-size: 22px;
+      color: var(--maroon);
+    }
+
+    /* ---------- Screen 5 : "you are my" cycling ---------- */
+    #roles {
+      background: var(--maroon-deep);
+      color: var(--cream);
+    }
+
+    #roles .eyebrow {
+      color: var(--gold-light);
+    }
+
+    #roles .lead {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(24px, 5vw, 36px);
+      margin-bottom: 6px;
+    }
+
+    #roleWord {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(40px, 9vw, 64px);
+      color: var(--gold-light);
+      min-height: 1.3em;
+    }
+
+    /* ---------- Screen 6 : finale ---------- */
+    #finale {
+      background: radial-gradient(circle at 50% 25%, #3a0f18 0%, var(--maroon-deep) 60%);
+      color: var(--cream);
+    }
+
+    #finale h2 {
+      font-size: clamp(30px, 7vw, 54px);
+      color: var(--gold-light);
+      margin-bottom: 18px;
+    }
+
+    #finale p {
+      max-width: 560px;
+      line-height: 1.75;
+      font-size: 16px;
+      color: var(--cream);
+      opacity: .92;
+      margin-bottom: 10px;
+    }
+
+    #finale .sign {
+      font-family: 'Caveat', cursive;
+      font-size: 26px;
+      color: var(--gold-light);
+      margin-top: 22px;
+    }
+
+    .rakhi-final {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 26px;
+    }
+
+    canvas#confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 60;
+    }
+
+    @media (max-width:480px) {
+      .box-row {
+        gap: 12px;
+      }
+
+      .gift {
+        width: 150px;
+        min-height: 150px;
+      }
+
+      .gift .msg {
+        font-size: 14px;
+        padding: 12px;
+      }
+
+      .polaroid {
+        width: 130px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="nameGate">
+    <svg class="rakhi-icon" viewBox="0 0 100 100">
+      <circle cx="50" cy="55" r="26" fill="none" stroke="#7A2331" stroke-width="4" />
+      <circle cx="50" cy="55" r="10" fill="#C9973F" />
+      <path d="M35 30 L50 10 L65 30" fill="none" stroke="#B8324A" stroke-width="4" stroke-linecap="round" />
+      <path d="M50 10 L50 30" fill="none" stroke="#B8324A" stroke-width="4" stroke-linecap="round" />
+    </svg>
+    <h1>Quick thing before we start...</h1>
+    <div class="sub">what's her first name?</div>
+    <input type="text" id="nameInput" placeholder="e.g. tannu, shalu, tannia" autocomplete="off" maxlength="30">
+    <div id="nameError"></div>
+    <button class="btn" id="nameSubmit">make it for her →</button>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <canvas id="confetti"></canvas>
+
+  <div class="scroller" id="scroller">
+
+    <!-- ============ SCREEN 0 — COVER ============ -->
+    <section id="cover">
+      <svg class="rakhi-icon" viewBox="0 0 100 100">
+        <circle cx="50" cy="55" r="26" fill="none" stroke="#7A2331" stroke-width="4" />
+        <circle cx="50" cy="55" r="10" fill="#C9973F" />
+        <path d="M35 30 L50 10 L65 30" fill="none" stroke="#B8324A" stroke-width="4" stroke-linecap="round" />
+        <path d="M50 10 L50 30" fill="none" stroke="#B8324A" stroke-width="4" stroke-linecap="round" />
+      </svg>
+      <div class="eyebrow">A little something, just for you</div>
+      <div class="sub" id="coverName" style="margin-top:0;margin-bottom:8px;"></div>
+      <h1>Before you get busy today...<br>I made you a surprise 🧵</h1>
+      <div class="sub">— from your brother, with all the love 🤍</div>
+      <div class="scroll-hint">scroll to open it ↓</div>
+    </section>
+
+    <!-- ============ SCREEN 1 — THE DODGING QUESTION ============ -->
+    <section id="ask">
+      <h2 id="askHeading">I made something for you.<br>Do you wanna see it?</h2>
+      <div class="note">fair warning, "no" isn't really an option</div>
+      <div class="choice-row">
+        <button class="btn" id="yesBtn1">yes, obviously</button>
+        <button class="btn ghost" id="noBtn">no</button>
+      </div>
+      <div id="dodgeMsg"></div>
+    </section>
+
+    <!-- ============ SCREEN 2 — GIFT BOXES ============ -->
+    <section id="gifts">
+      <h2 id="giftsHeading">Each box has something for you</h2>
+      <div class="note">tap all three to unwrap them</div>
+      <div class="box-row" id="boxRow">
+        <div class="gift"
+          data-msg="Growing up with you is something I'd never trade — the fights, the laughs, all of it. Having you as my sister is one of the best things that ever happened to me. I'm proud to be your bhai.">
+          <span class="ribbon-v"></span><span class="ribbon-h"></span><span class="bow">🎀</span>
+          <span class="msg"></span>
+        </div>
+        <div class="gift"
+          data-msg="No matter how old we get or how busy life gets — I always know I can call you. And you'll be there. That's what we do.">
+          <span class="ribbon-v"></span><span class="ribbon-h"></span><span class="bow">🎀</span>
+          <span class="msg"></span>
+        </div>
+        <div class="gift"
+          data-msg="This thread isn't just a tradition — it's a promise. You're my sister, and your bhai has got your back through everything. No conditions, no expiry date.">
+          <span class="ribbon-v"></span><span class="ribbon-h"></span><span class="bow">🎀</span>
+          <span class="msg"></span>
+        </div>
+      </div>
+      <button class="btn" id="giftsContinue">keep going →</button>
+    </section>
+
+    <!-- ============ SCREEN 3 — MEMORIES WALL ============ -->
+    <section id="memories">
+      <h2 id="memoriesHeading">A few of my favourites</h2>
+      <div class="note">(swap these for our real photos before you send it!)</div>
+      <div class="wall">
+        <div class="polaroid"><span class="pin"></span>
+          <div class="frame">photo 1</div>
+          <div class="cap">us, way too young</div>
+        </div>
+        <div class="polaroid"><span class="pin"></span>
+          <div class="frame">photo 2</div>
+          <div class="cap">that family wedding 😄</div>
+        </div>
+        <div class="polaroid"><span class="pin"></span>
+          <div class="frame">photo 3</div>
+          <div class="cap">taking Random photoshoot</div>
+        </div>
+        <div class="polaroid"><span class="pin"></span>
+          <div class="frame">photo 4</div>
+          <div class="cap">last rakhi</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SCREEN 4 — CERTIFICATE ============ -->
+    <section id="certificate">
+      <div class="cert">
+        <div class="eyebrow">Official & very legally binding</div>
+        <h2>Best Sister Award 🏆</h2>
+        <div class="name" id="certName">[ her name here ]</div>
+        <p>Awarded for unmatched patience, world-class advice, always knowing what to say (and when to say nothing), and
+          making every ordinary day feel a little warmer just by being in it. This certificate entitles the bearer to
+          unconditional love and support, forever.</p>
+        <div class="sign">— signed, your bhai</div>
+      </div>
+    </section>
+
+    <!-- ============ SCREEN 5 — YOU ARE MY ============ -->
+    <section id="roles">
+      <div class="eyebrow">a small, incomplete list</div>
+      <div class="lead">You are my —</div>
+      <div id="roleWord"></div>
+    </section>
+
+    <!-- ============ SCREEN 6 — FINALE ============ -->
+    <section id="finale">
+      <svg class="rakhi-final" viewBox="0 0 100 100">
+        <circle cx="50" cy="55" r="28" fill="none" stroke="#E8C878" stroke-width="4" />
+        <circle cx="50" cy="55" r="11" fill="#C9973F" />
+        <path d="M33 28 L50 8 L67 28" fill="none" stroke="#E8C878" stroke-width="4" stroke-linecap="round" />
+        <path d="M50 8 L50 28" fill="none" stroke="#E8C878" stroke-width="4" stroke-linecap="round" />
+      </svg>
+      <h2 id="finaleHeading">Happy Raksha Bandhan</h2>
+      <p id="finaleLetterHint">[ write your real letter here — the thing you'd actually say if she were sitting in front
+        of you. Keep it short, keep it honest, that's what lands. ]</p>
+      <p>Thank you for every year of this thread between us. Here's to a hundred more.</p>
+      <div class="sign">with love, always — [ your name ]</div>
+      <button class="btn ghost" id="replayBtn" style="margin-top:32px;border-color:#E8C878;color:#E8C878;">watch it
+        again</button>
+    </section>
+
+  </div>
+
+  <script>
+    // ---------- name gate: capture first name only ----------
+    // Takes whatever is typed and keeps only the first run of letters,
+    // so "Honey Singh", "honey*singh", "honey123" etc. all become "Honey".
+    function extractFirstName(raw) {
+      if (!raw) return '';
+      const match = raw.trim().match(/[A-Za-z']+/);
+      if (!match) return '';
+      const word = match[0];
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
+
+    const nameGate = document.getElementById('nameGate');
+    const nameInput = document.getElementById('nameInput');
+    const nameError = document.getElementById('nameError');
+    const nameSubmit = document.getElementById('nameSubmit');
+
+    function applyName(name) {
+      // Add "Didi" as a term of endearment for Tannu or Tanvi only
+      const didiNames = ['tannu', 'tanvi'];
+      const displayName = didiNames.includes(name.toLowerCase()) ? name + ' Didi' : name;
+
+      const certName = document.getElementById('certName');
+      const coverName = document.getElementById('coverName');
+      const finaleHeading = document.getElementById('finaleHeading');
+      const askHeading = document.getElementById('askHeading');
+      const giftsHeading = document.getElementById('giftsHeading');
+      const memoriesHeading = document.getElementById('memoriesHeading');
+      const finaleLetterHint = document.getElementById('finaleLetterHint');
+
+      if (certName) certName.textContent = displayName;
+      if (coverName) coverName.textContent = `hey ${displayName} 👋`;
+      if (finaleHeading) finaleHeading.textContent = `Happy Raksha Bandhan, ${displayName}`;
+      if (askHeading) askHeading.innerHTML = `I made something for you, ${displayName}.<br>Do you wanna see it?`;
+      if (giftsHeading) giftsHeading.textContent = `Each box has something for you, ${displayName}`;
+      if (memoriesHeading) memoriesHeading.textContent = `A few of my favourites with ${displayName}`;
+      if (finaleLetterHint) finaleLetterHint.textContent = `[ write your real letter here — the thing you'd actually say if ${displayName} were sitting in front of you. Keep it short, keep it honest, that's what lands. ]`;
+
+      // load name-specific photos from photos/{name}/ folder
+      // tries jpg → jpeg → png → webp, falls back to placeholder text
+      const exts = ['jpg', 'jpeg', 'png', 'webp'];
+      function tryLoadPhoto(frame, index, name, extIndex) {
+        if (extIndex >= exts.length) {
+          // all extensions failed — keep placeholder text
+          frame.textContent = `photo of ${name} ${index + 1}`;
+          return;
+        }
+        const src = `photos/${name.toLowerCase()}/${index + 1}.${exts[extIndex]}`;
+        const img = new Image();
+        img.onload = () => {
+          frame.textContent = '';
+          frame.style.background = 'none';
+          frame.style.border = 'none';
+          frame.style.padding = '0';
+          const el = document.createElement('img');
+          el.src = src;
+          el.alt = `photo ${index + 1} of ${name}`;
+          frame.appendChild(el);
+        };
+        img.onerror = () => tryLoadPhoto(frame, index, name, extIndex + 1);
+        img.src = src;
+      }
+
+      document.querySelectorAll('.polaroid .frame').forEach((el, i) => {
+        // reset frame to placeholder state first
+        el.innerHTML = '';
+        el.style.background = '';
+        el.style.border = '';
+        el.style.padding = '';
+        el.textContent = `photo of ${name} ${i + 1}`;
+        tryLoadPhoto(el, i, name, 0);
+      });
+    }
+
+    function submitName() {
+      const name = extractFirstName(nameInput.value);
+      if (!name) {
+        nameError.textContent = "just her first name, no need for anything fancy 🙂";
+        nameInput.focus();
+        return;
+      }
+      applyName(name);
+      try { sessionStorage.setItem('rakhiName', name); } catch (e) { }
+      nameGate.classList.add('hidden');
+    }
+
+    nameSubmit.addEventListener('click', submitName);
+    nameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); submitName(); }
+    });
+    nameInput.addEventListener('input', () => { nameError.textContent = ''; });
+
+    // skip the gate if a name was already entered earlier this session
+    (function () {
+      let savedName = null;
+      try { savedName = sessionStorage.getItem('rakhiName'); } catch (e) { }
+      if (savedName) {
+        applyName(savedName);
+        nameGate.classList.add('hidden');
+      } else {
+        setTimeout(() => nameInput.focus(), 300);
+      }
+    })();
+
+    // ---------- mobile viewport height fix (address bar safe) ----------
+    function setVH() {
+      document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+    }
+    setVH();
+    window.addEventListener('resize', setVH);
+    window.addEventListener('orientationchange', setVH);
+
+    // ---------- progress bar ----------
+    const scroller = document.getElementById('scroller');
+    const progressBar = document.getElementById('progressBar');
+    scroller.addEventListener('scroll', () => {
+      const pct = scroller.scrollTop / (scroller.scrollHeight - scroller.clientHeight) * 100;
+      progressBar.style.width = pct + '%';
+    });
+
+    // ---------- dodging "no" button ----------
+    const noBtn = document.getElementById('noBtn');
+    const askSection = document.getElementById('ask');
+    const dodgeMsg = document.getElementById('dodgeMsg');
+    const dodgeLines = [
+      "nice try.",
+      "nope, still no.",
+      "come on now.",
+      "you had one job.",
+      "okay fine, just say yes 😌"
+    ];
+    let dodgeCount = 0;
+    function dodge() {
+      const rect = askSection.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+      const maxX = rect.width - btnRect.width - 40;
+      const maxY = rect.height - btnRect.height - 160;
+      const x = Math.random() * maxX - maxX / 2;
+      const y = Math.random() * maxY - maxY / 2;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      dodgeMsg.textContent = dodgeLines[Math.min(dodgeCount, dodgeLines.length - 1)];
+      dodgeCount++;
+    }
+    noBtn.addEventListener('mouseenter', dodge);
+    noBtn.addEventListener('click', (e) => { e.preventDefault(); dodge(); });
+    noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); dodge(); }, { passive: false });
+
+    document.getElementById('yesBtn1').addEventListener('click', () => {
+      document.getElementById('gifts').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // ---------- gift boxes ----------
+    const boxes = document.querySelectorAll('.gift');
+    const giftsContinue = document.getElementById('giftsContinue');
+    let openedCount = 0;
+    boxes.forEach(box => {
+      box.addEventListener('click', () => {
+        if (box.classList.contains('opened')) return;
+        box.classList.add('opened');
+        box.querySelector('.msg').textContent = box.dataset.msg;
+        openedCount++;
+        if (openedCount === boxes.length) {
+          giftsContinue.classList.add('ready');
+          burstConfetti(40);
+        }
+      });
+    });
+    giftsContinue.addEventListener('click', () => {
+      document.getElementById('memories').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // ---------- cycling role words ----------
+    const roles = ["my sister", "loudest cheerleader", "partner in crime", "safe place", "my person", "my favourite human", "forever home"];
+    const roleWordEl = document.getElementById('roleWord');
+    let roleIndex = 0;
+    function typeRole() {
+      const word = roles[roleIndex % roles.length];
+      roleWordEl.textContent = '';
+      let i = 0;
+      const typing = setInterval(() => {
+        roleWordEl.textContent += word[i];
+        i++;
+        if (i === word.length) {
+          clearInterval(typing);
+          setTimeout(() => { roleIndex++; typeRole(); }, 1300);
+        }
+      }, 55);
+    }
+    const rolesObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          typeRole();
+          rolesObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+    rolesObserver.observe(document.getElementById('roles'));
+
+    // ---------- finale confetti + replay ----------
+    const finaleObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          burstConfetti(90);
+          finaleObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.6 });
+    finaleObserver.observe(document.getElementById('finale'));
+
+    document.getElementById('replayBtn').addEventListener('click', () => {
+      document.getElementById('cover').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // ---------- lightweight confetti ----------
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+    let particles = [];
+    const colors = ['#C9973F', '#E8C878', '#B8324A', '#7A2331', '#E9A6A1'];
+    function burstConfetti(n) {
+      for (let i = 0; i < n; i++) {
+        particles.push({
+          x: innerWidth / 2 + (Math.random() - 0.5) * innerWidth * 0.6,
+          y: -20,
+          vx: (Math.random() - 0.5) * 3,
+          vy: Math.random() * 2 + 2,
+          size: Math.random() * 6 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rot: Math.random() * 360,
+          vrot: (Math.random() - 0.5) * 10
+        });
+      }
+    }
+    function animateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.rot += p.vrot;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot * Math.PI / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.5);
+        ctx.restore();
+      });
+      particles = particles.filter(p => p.y < innerHeight + 20);
+      requestAnimationFrame(animateConfetti);
+    }
+    animateConfetti();
+  </script>
+</body>
+
+</html>
