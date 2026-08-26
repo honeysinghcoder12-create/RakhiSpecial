@@ -836,8 +836,7 @@
       if (askHeading) askHeading.innerHTML = `I made something for you, ${displayName}.<br>Do you wanna see it?`;
       if (giftsHeading) giftsHeading.textContent = `Each box has something for you, ${displayName}`;
       if (memoriesHeading) memoriesHeading.textContent = `A few of my favourites with ${displayName}`;
-      if (finaleLetterHint) finaleLetterHint.textContent = `[ write your real letter here — the thing you'd actually say if ${displayName} were sitting in front of you. Keep it short, keep it honest, that's what lands. ]`;
-
+      
       // load name-specific photos from photos/{name}/ folder
       // tries jpg → jpeg → png → webp, falls back to placeholder text
       const exts = ['jpg', 'jpeg', 'png', 'webp'];
